@@ -49,7 +49,7 @@ In such case, we can only have one producer and one consumer for each partition.
 ### Target use case: 
 stream processing
 ```mermaid
-graph
+graph TD;
 [Kafka] --> [Stream Processor] : consume topics
 [Stream Processor] --> [Kafka] : produce topics
 ```
