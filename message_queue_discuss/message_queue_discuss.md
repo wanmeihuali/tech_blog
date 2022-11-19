@@ -19,7 +19,7 @@ Offline: The replica is syncing with the leader and is not ready to serve reques
 None: The replica is invalid and is not ready to serve requests.
 
 ## Implementation of Log(Record): Skiplist
-![image](https://pic2.zhimg.com/80/v2-9bc88e7c281de6235e8b03171e77f049_1440w.webp)
+![image](https://www.singlestore.com/images/cms/blog-posts/img_blog_post_featured_what-is-skiplist-why-skiplist-index-for-memsql.png)
 Now Kafka uses skiplist to implement the log. The skiplist is a data structure that allows fast search within an ordered sequence of elements.
 
 Insert: O(log n), SkipList supports random insert, but in Kafka, the insert is always at the end of the list.
@@ -48,8 +48,10 @@ In such case, we can only have one producer and one consumer for each partition.
 ## Exactly Once in Kafka
 ### Target use case: 
 stream processing
-```
-kafka -> stream processor -> kafka
+```mermaid
+graph
+[Kafka] --> [Stream Processor] : consume topics
+[Stream Processor] --> [Kafka] : produce topics
 ```
 Expected behavior: a record is processed exactly once even if the stream processor crashes/get timeout.
 
