@@ -38,6 +38,7 @@ The compression usually happens at the producer side, it can also happens at the
 producer -> broker -> consumer
 ```
 I guess the compression at the broker side is for the case that the producer is not able to compress the data, e.g. IoT devices.
+
 ![image](https://note.youdao.com/yws/api/personal/file/CEF9B00C83E348DCB3351219EB7AC980?method=download&shareKey=c89b8a76cf002f96f5299988d9899e36)
 
 ## In-order delivery
@@ -48,11 +49,10 @@ In such case, we can only have one producer and one consumer for each partition.
 ## Exactly Once in Kafka
 ### Target use case: 
 stream processing
-
 ```mermaid
 graph TD;
-[Kafka] --> [Stream Processor] : consume topics;
-[Stream Processor] --> [Kafka] : produce topics;
+    A[Kafka] -- topics consumed --> B[Stream Processor];
+    B -- topics produced --> A;
 ```
 Expected behavior: a record is processed exactly once even if the stream processor crashes/get timeout.
 
