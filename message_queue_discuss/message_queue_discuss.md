@@ -39,7 +39,7 @@ producer -> broker -> consumer
 ```
 I guess the compression at the broker side is for the case that the producer is not able to compress the data, e.g. IoT devices.
 
-![image](https://note.youdao.com/yws/api/personal/file/CEF9B00C83E348DCB3351219EB7AC980?method=download&shareKey=c89b8a76cf002f96f5299988d9899e36)
+![image](20200326102752_64757.png)
 
 ## In-order delivery
 Kafka guarantees in-order delivery for each partition. The producer will wait for the previous record to be committed before sending the next record. The consumer will read the records in the same order as they are written to the log.
