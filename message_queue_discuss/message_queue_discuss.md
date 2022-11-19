@@ -62,13 +62,32 @@ stream processor is both producer and consumer.
 2. Producer to Broker RPC failure
 3. Client failure
 
+### Transection in Kafka
+[blog](https://www.confluent.io/blog/transactions-apache-kafka/)
+a group of messages in same or different topics that are either all committed or all aborted.
+
+Kafka introduced Control Message, which is a message that is not part of the log, but is used to control the log. The control message is used to commit or abort a transaction.
+
+#### Two-phase commit
+[blog](https://donggeitnote.com/2022/02/15/kafka-exactly-once/)
+
+
 ### Idempotence:
+Each producer has an unique, immutable transactional id.
+
+Assign a producer id to each producer(base on transactional id).
+
 Assign a sequence number to each record.
 
-If a broker receives a record with a sequence number that it has already seen, it will ignore the record. So when a broker fails, the records that have been written to the log will not be written again.
+if the producer id and sequence number are the same as the previous record, the record is a duplicate.
 
-## Transection in Kafka
-[blog](https://www.confluent.io/blog/transactions-apache-kafka/)
+if the sequence number not equal to the previous record + 1, it means some records are lost(out of order).
 
-Common use case:
+If a producer crashes and we start a new one, it will use the same transactional id, and increase an extra counter, and the broker will assign the same producer id to the producer. The producer will continue to produce records with the same producer id and sequence number. The broker will detect the duplicate records and drop them.
 
+If the crashed producer is still restarted and back, because its counter is not increased, all its records will be dropped by the broker.
+
+As duplicate records are dropped, the producer can alway retry the failed records without worrying about duplicate records. In this way, the producer to Kafka is "exactly once".
+
+## Other
+[Mafka](https://tech.meituan.com/2022/08/04/the-practice-of-kafka-in-the-meituan-data-platform.html)
