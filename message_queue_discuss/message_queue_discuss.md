@@ -48,10 +48,11 @@ In such case, we can only have one producer and one consumer for each partition.
 ## Exactly Once in Kafka
 ### Target use case: 
 stream processing
+
 ```mermaid
 graph TD;
-[Kafka] --> [Stream Processor] : consume topics
-[Stream Processor] --> [Kafka] : produce topics
+[Kafka] --> [Stream Processor] : consume topics;
+[Stream Processor] --> [Kafka] : produce topics;
 ```
 Expected behavior: a record is processed exactly once even if the stream processor crashes/get timeout.
 
